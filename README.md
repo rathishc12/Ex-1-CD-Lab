@@ -1,6 +1,6 @@
 # Ex-1 IMPLEMENTATION-OF-SYMBOL-TABLE
-# Register Number :212222100043
-# Date : 11-04-2025
+# Register Number : 212223040086
+# Date : 15/04/2025 
 # AIM :
 ## To write a C program to implement a symbol table.
 # ALGORITHM
@@ -18,72 +18,75 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-
 #define MAX_EXPRESSION_SIZE 100
 
 int main() {
-	int i = 0, j = 0, x = 0, n, flag = 0;
-	void *add[5];
-	char b[MAX_EXPRESSION_SIZE], d[15], c, srch;
+    int i = 0, j = 0, x = 0, n, flag = 0;
+    char b[MAX_EXPRESSION_SIZE], d[15], c, srch;
 
-	printf("Enter the Expression terminated by $: ");
-	while ((c = getchar()) != '$' && i < MAX_EXPRESSION_SIZE - 1) {
-		b[i++] = c;
-	}
-	b[i] = '\0'; // Null terminate the string
-	n = i - 1;
-	
-	printf("Given Expression: %s\n", b);
-	
-	printf("\nSymbol Table\n");
-	printf("Symbol\taddr\ttype\n");
-	
-	for (j = 0; j <= n; j++) {
-		c = b[j];
-		if (isalpha((unsigned char)c)) {
-			if (j == n) {
-				void *p = malloc(sizeof(char));
-				add[x] = p;
-				d[x] = c;
-				printf("%c\t%p\tidentifier\n", c, p);
-	} else {
-		char ch = b[j + 1];
-		if (ch == '+' || ch == '-' || ch == '*' || ch == '=') {
-			void *p = malloc(sizeof(char));
-			add[x] = p;
-			d[x] = c;
-			printf("%c\t%p\tidentifier\n", c, p);
-			x++;
-			}
-		}
-	}
-	 
-	}
-	
-	printf("\nThe symbol to be searched: ");
-	srch = getchar();
-	for (i = 0; i <= x; i++) {
-		if (srch == d[i]) {
-		printf("Symbol Found\n");
-		printf("%c@address%p\n", srch, add[i]);
-		flag = 1;
-		}
-	}
-	
-	if (flag == 0)
-		printf("Symbol Not Found\n");
-	
-	// Free dynamically allocated memory
-	for (i = 0; i <= x; i++) {
-		free(add[i]);
-	}
+    printf("Enter the Expression terminated by $: ");
+    while ((c = getchar()) != '$' && i < MAX_EXPRESSION_SIZE - 1) {
+        b[i++] = c;
+    }
+    b[i] = '\0'; 
+    n = i - 1;
 
-	return 0;
+    printf("\nGiven Expression: %s\n", b);
+
+    printf("\nSymbol Table\n");
+    printf("Symbol\tType\n");
+
+    for (j = 0; j <= n; j++) {
+        c = b[j];
+        if (isalpha((unsigned char)c)) {
+            int alreadyExists = 0;
+            for (int k = 0; k < x; k++) {
+                if (d[k] == c) {
+                    alreadyExists = 1;
+                    break;
+                }
+            }
+
+            if (!alreadyExists) {
+                d[x] = c;
+                printf("%c\tidentifier\n", c);
+                x++;
+            }
+        }
+    }
+    while ((c = getchar()) != '\n' && c != EOF);
+
+    printf("\nEnter the symbol to search: ");
+    srch = getchar();
+
+    for (i = 0; i < x; i++) {
+        if (srch == d[i]) {
+            printf("Symbol Found\n");
+            flag = 1;
+            printf("Address : %lld",&d[i]);
+            break;
+        }
+    }
+    if (flag == 0)
+        printf("Symbol Not Found\n");
+
+    return 0;
 }
 ```
-
 # OUTPUT
-![image](https://github.com/user-attachments/assets/e1348de6-83dd-4041-ad6a-b941d6b1ffbe)
+
+SYMBOL  FOUND:
+
+
+![image](https://github.com/user-attachments/assets/4aa7b01b-e6bd-4eca-a5dc-93fe57c96650)
+
+
+SYMBOL NOT FOUND :
+
+
+![image](https://github.com/user-attachments/assets/3b73245d-8cd9-4b5e-9bef-3b8a82e54373)
+
+
 
 # RESULT
 ### The program to implement a symbol table is executed and the output is verified.
